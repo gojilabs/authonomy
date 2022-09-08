@@ -6,9 +6,9 @@ module Authonomy
   class Encryptor
     class << self
       def digest(password)
-        password = "#{password}#{Authonomy::Attributor.pepper.presence}"
+        password = "#{password}#{Authonomy.pepper.presence}"
 
-        ::BCrypt::Password.create(password, cost: Authonomy::Attributor.stretches).to_s
+        ::BCrypt::Password.create(password, cost: Authonomy.stretches).to_s
       end
 
       def compare(hashed_password, password)
@@ -16,7 +16,7 @@ module Authonomy
 
         bcrypt = ::BCrypt::Password.new(hashed_password)
 
-        password = "#{password}#{Authonomy::Attributor.pepper.presence}"
+        password = "#{password}#{Authonomy.pepper.presence}"
         password = ::BCrypt::Engine.hash_secret(password, bcrypt.salt)
 
         secure_compare(password, hashed_password)
