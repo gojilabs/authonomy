@@ -1,0 +1,4 @@
+/.bundle
+/tmp
+/log/*.log
+/coverage/
