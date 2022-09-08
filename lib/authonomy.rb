@@ -21,11 +21,13 @@ module Authonomy
       invite_token_length
       reset_password_token_ttl
       reset_password_token_length
+      secret_key_base
     ].freeze
     attr_writer(*WRITER_METHODS)
 
     READER_METHODS = %i[
       pepper
+      secret_key_base
     ].freeze
     attr_reader(*READER_METHODS)
 

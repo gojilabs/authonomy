@@ -11,7 +11,7 @@ module Authonomy
       def generator
         @generator ||= new(
           ActiveSupport::CachingKeyGenerator.new(
-            ActiveSupport::KeyGenerator.new(ENV.fetch('SECRET_KEY_BASE'))
+            ActiveSupport::KeyGenerator.new(Authonomy.secret_key_base)
           )
         )
       end
