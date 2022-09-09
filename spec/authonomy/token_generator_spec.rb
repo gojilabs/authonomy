@@ -4,12 +4,8 @@ require 'spec_helper'
 
 RSpec.describe Authonomy::TokenGenerator, type: :model do
   before :all do
-    secret_key_base = SecureRandom.hex(64)
-    @token_generator = described_class.new(
-      ActiveSupport::CachingKeyGenerator.new(
-        ActiveSupport::KeyGenerator.new(secret_key_base)
-      )
-    )
+    Authonomy.secret_key = SecureRandom.hex(64)
+    @token_generator = described_class.generator
   end
 
   describe '.digest' do
@@ -37,7 +33,11 @@ RSpec.describe Authonomy::TokenGenerator, type: :model do
 
     before :all do
       pwd = 'Super-SeCrEt=password_123'
-      10.times { User.new(pwd) }
+      10.times { |i| User.new(id: i + 1, password: pwd) }
+    end
+
+    after :all do
+      User.destroy_all
     end
 
     it 'generates raw and encoded token' do
@@ -54,7 +54,7 @@ RSpec.describe Authonomy::TokenGenerator, type: :model do
     end
 
     it 'generates unique encoded tokens' do
-      expect(User.count).to be(10)
+      expect(User.all.count).to be(10)
 
       encoded_tokens = []
       User.all.each do |item|
@@ -66,7 +66,7 @@ RSpec.describe Authonomy::TokenGenerator, type: :model do
     end
 
     it 'generates raw and encoded tokens which can be matched with digest' do
-      expect(User.count).to be(10)
+      expect(User.all.count).to be(10)
 
       User.all.each do |item|
         token, encoded_token = @token_generator.generate(User, :reset_password_token, token_length)

@@ -30,4 +30,5 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'bcrypt'
+  s.add_runtime_dependency 'jwt'
 end

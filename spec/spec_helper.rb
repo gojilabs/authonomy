@@ -19,49 +19,11 @@
 require 'simplecov'
 SimpleCov.start 'rails'
 
+require 'timecop'
+
 require 'authonomy'
 
-class User
-  attr_accessor :reset_password_token, :password
-
-  @list = []
-
-  def initialize(password)
-    @password = password
-    self.class.all << self
-  end
-
-  def update(hash)
-    hash.each do |k, v|
-      send("#{k}=", v)
-    end
-  end
-
-  class << self
-    def count
-      @list.count
-    end
-
-    def all
-      @list
-    end
-
-    def find_by(hash)
-      @list.each do |obj|
-        res = obj
-        hash.each do |k, v|
-          if obj.send(k) != v
-            res = nil
-            break
-          end
-        end
-
-        return res if res
-      end
-      nil
-    end
-  end
-end
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
