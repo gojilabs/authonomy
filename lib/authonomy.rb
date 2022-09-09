@@ -21,6 +21,8 @@ module Authonomy
       refresh_token_ttl
       invite_token_ttl
       invite_token_length
+      confirm_email_token_ttl
+      confirm_email_token_length
       reset_password_token_ttl
       reset_password_token_length
       secret_key
@@ -113,6 +115,14 @@ module Authonomy
 
     def invite_token_length
       @invite_token_length || 48
+    end
+
+    def confirm_email_token_ttl
+      @confirm_email_token_ttl || 24.hours
+    end
+
+    def confirm_email_token_length
+      @confirm_email_token_length || 48
     end
 
     def reset_password_token_ttl
